@@ -1,0 +1,36 @@
+<div class="users">
+	<tui-input class="users__search" [(ngModel)]="search" tuiTextfieldIconLeft="tuiIconSearchLarge">
+		Search
+	</tui-input>
+	<table class="users__table" *ngIf="users$ | async as users; else loader" tuiTable [columns]="columns">
+		<thead>
+			<tr tuiThGroup>
+				<th *tuiHead="Column.Name" tuiTh>
+					Name
+				</th>
+				<th *tuiHead="Column.Age" tuiTh>
+					Age
+				</th>
+				<th *tuiHead="Column.Sex" tuiTh>
+					Sex
+				</th>
+			</tr>
+		</thead>
+		<tbody *tuiLet="filterUsers(users, search) | tuiTableSort as sortedUsers" tuiTbody [data]="sortedUsers">
+			<tr *ngFor="let user of sortedUsers" tuiTr>
+				<td *tuiCell="Column.Name" tuiTd [tuiHighlight]="search" [tuiHighlightColor]="'#228B22'">
+					{{user.name}}
+				</td>
+				<td *tuiCell="Column.Age" tuiTd>
+					{{user.age}}
+				</td>
+				<td *tuiCell="Column.Sex" tuiTd>
+					{{user.sex}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<ng-template #loader>
+		<tui-loader size="xl"></tui-loader>
+	</ng-template>
+</div>
